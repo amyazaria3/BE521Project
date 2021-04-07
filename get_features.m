@@ -22,24 +22,23 @@ function [features, numFeats] = get_features(clean_data,fs)
 
 features = [];
 for i = 1:size(clean_data,2) %#cols in matrix (channels)
-    %compute variance
-    features(1,end+1) = var(clean_data(:,i));
-    
-    %compute energy
-    features(1,end+1) = sum(clean_data(:,i).^2);
-    
-    %compute shannon entropy
-    features(1,end+1) = wentropy(clean_data(:,i),'shannon');
-    
-    %compute line length
-    features(1,end+1) = sum(abs(diff(clean_data(:,i))));  
-    
     %compute mean voltage
     features(1,end+1) = mean(clean_data(:,i));  
     
-    %find num maxima + minima
-    %features(1,end+1) = length(findpeaks(clean_data(:,i))) + length(findpeaks(-1*clean_data(:,i))); 
-    %this is so slow
+    %find 5-15hz
+    features(1,end+1) = bandpower(clean_data(:,i),fs,[5 15]);
+    
+    %find 20-25hz
+    features(1,end+1) = bandpower(clean_data(:,i),fs,[20 25]);
+    
+    %find 75-115hz
+    features(1,end+1) = bandpower(clean_data(:,i),fs,[75 115]);
+    
+    %find 125-160hz
+    features(1,end+1) = bandpower(clean_data(:,i),fs,[125 160]);
+    
+    %find 160-175hz
+    features(1,end+1) = bandpower(clean_data(:,i),fs,[160 175]);
 end
 
 numFeats = length(features)/size(clean_data,2);
