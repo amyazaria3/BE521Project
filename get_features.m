@@ -19,7 +19,6 @@ function [features, numFeats] = get_features(clean_data,fs)
     %           numFeats:   number of features being calculated
     % 
 %% Your code here (8 points)
-
 features = [];
 for i = 1:size(clean_data,2) %#cols in matrix (channels)
     %compute mean voltage
